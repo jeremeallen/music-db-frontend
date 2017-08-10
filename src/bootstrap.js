@@ -49,6 +49,8 @@ export const router = new VueRouter({
 VueRouterSync.sync(store, router);
 Vue.router = router;
 
+import '@/assets/stylus/app.styl';
+
 export default {
   router,
 };
