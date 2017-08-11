@@ -49,6 +49,10 @@ export const router = new VueRouter({
 VueRouterSync.sync(store, router);
 Vue.router = router;
 
+import MusicDbComponents from 'music-db-components';
+
+Vue.use(MusicDbComponents);
+
 import '@/assets/stylus/app.styl';
 
 export default {
