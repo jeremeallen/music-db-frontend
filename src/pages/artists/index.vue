@@ -58,6 +58,7 @@
               <v-button 
                 variant="circle"
                 @click.native="redirectToCreatePage"
+                class="pull-right"
               >
                 <v-icon>add</v-icon>
               </v-button>
