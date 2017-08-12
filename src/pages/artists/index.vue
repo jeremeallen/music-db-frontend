@@ -2,7 +2,7 @@
   <div>
       <v-header>
         <v-toolbar>
-            <v-nav-icon />
+            <v-nav-icon @click.native="toggleDrawer" />
             <v-toolbar-title>Music DB</v-toolbar-title>
             <v-toolbar-actions>
               <v-toolbar-action>
@@ -10,10 +10,13 @@
               </v-toolbar-action>
             </v-toolbar-actions>
         </v-toolbar>
-        <transition>
+        <transition name="slide-left">
           <v-drawer v-if="drawerActive">
             <v-drawer-header>
-              <v-nav-icon variant="green" />
+              <v-nav-icon 
+                variant="green" 
+                @click.native="toggleDrawer"
+              />
               <v-drwaer-title>Music DB</v-drwaer-title>
             </v-drawer-header>
             <v-drawer-body>
@@ -118,9 +121,10 @@
           </v-row>
         </v-grid>
       </v-content>
-      <transition>
+      <transition name="fade">
         <v-overlay
           v-show="drawerActive"
+          @click.native="hideDrawer"
         />
       </transition>
   </div>
