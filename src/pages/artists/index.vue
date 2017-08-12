@@ -1,133 +1,87 @@
 <template>
-  <div>
-      <v-header>
-        <v-toolbar>
-            <v-nav-icon @click.native="toggleDrawer" />
-            <v-toolbar-title>Music DB</v-toolbar-title>
-            <v-toolbar-actions>
-              <v-toolbar-action>
-                <v-icon>exit to app</v-icon>
-              </v-toolbar-action>
-            </v-toolbar-actions>
-        </v-toolbar>
-        <transition name="slide-left">
-          <v-drawer v-if="drawerActive">
-            <v-drawer-header>
-              <v-nav-icon 
-                variant="green" 
-                @click.native="toggleDrawer"
-              />
-              <v-drwaer-title>Music DB</v-drwaer-title>
-            </v-drawer-header>
-            <v-drawer-body>
-              <v-navigation>
-                <v-navigation-item>
-                  <v-navigation-link :route="{ name: 'artists.index' }" >
-                    <v-navigation-content>Artists</v-navigation-content>
-                  </v-navigation-link>
-                  <v-navigation-link :route="{ name: 'albums.index' }" >
-                    <v-navigation-content>Albums</v-navigation-content>
-                  </v-navigation-link>
-                  <v-navigation-link :route="{ name: 'songs.index' }" >
-                    <v-navigation-content>Songs</v-navigation-content>
-                  </v-navigation-link>
-                </v-navigation-item>
-              </v-navigation>
-            </v-drawer-body>
-            <v-drawer-footer>For education purposes only</v-drawer-footer>
-          </v-drawer>>
-        </transition>
-      </v-header>
-      <v-content>
-        <v-grid variant="container">
-          <v-row variant="xs-center">
-            <v-col :variants="['xs-9', 'md-4', 'lg-3']">
-              <v-card>
-                <v-card-body>
-                  <v-form @submit.prevent.native="setQuery(query)">
-                    <v-input-group>
-                      <v-icon variant="signifier">search</v-icon>
-                      <v-text-field 
-                        variant="with-signifier"
-                        v-model="query"
-                        placeholder="Find artist"
-                      />
-                    </v-input-group>
-                  </v-form>
-                </v-card-body>
-              </v-card>
-            </v-col>
-            <v-col :variants="['xs-3', 'md-4', 'lg-3', 'md-offset-4', 'lg-offset-6']">
-              <v-button 
-                variant="circle"
-                @click.native="redirectToCreatePage"
-                class="pull-right"
+  <v-layout>
+    <v-grid variant="container">
+      <v-row variant="xs-center">
+        <v-col :variants="['xs-9', 'md-4', 'lg-3']">
+          <v-card>
+            <v-card-body>
+              <v-form @submit.prevent.native="setQuery(query)">
+                <v-input-group>
+                  <v-icon variant="signifier">search</v-icon>
+                  <v-text-field 
+                    variant="with-signifier"
+                    v-model="query"
+                    placeholder="Find artist"
+                  />
+                </v-input-group>
+              </v-form>
+            </v-card-body>
+          </v-card>
+        </v-col>
+        <v-col :variants="['xs-3', 'md-4', 'lg-3', 'md-offset-4', 'lg-offset-6']">
+          <v-button 
+            variant="circle"
+            @click.native="redirectToCreatePage"
+            class="pull-right"
+          >
+            <v-icon>add</v-icon>
+          </v-button>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col variant="sm">
+          <v-table>
+            <v-table-header>
+              <v-table-row>
+                <v-table-head>Name</v-table-head>
+                <v-table-head>Birthday</v-table-head>
+              </v-table-row>
+            </v-table-header>
+            <v-table-body>
+              <v-table-row
+                v-for="artist in artist.all"
+                :key="artist"
+                variant="body"
               >
-                <v-icon>add</v-icon>
-              </v-button>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col variant="sm">
-              <v-table>
-                <v-table-header>
-                  <v-table-row>
-                    <v-table-head>Name</v-table-head>
-                    <v-table-head>Birthday</v-table-head>
-                  </v-table-row>
-                </v-table-header>
-                <v-table-body>
-                  <v-table-row
-                    v-for="artist in artist.all"
-                    :key="artist"
-                    variant="body"
-                  >
-                    <v-table-cell>
-                      <router-link :to="getArtistRoute(artist.id)">
-                        {{ artist.fullName }}
-                      </router-link>
-                    </v-table-cell>
-                    <v-table-cell>
-                      {{ artist.birthday }}
-                    </v-table-cell>
-                  </v-table-row>
-                  <v-table-row v-if="artist.all.length === 0">
-                    <v-table-cell colspan="3">Artists not found .... </v-table-cell>
-                  </v-table-row>
-                </v-table-body>
-              </v-table>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col variant="xs-justiry">
-              <v-card variant="inline">
-                <v-card-body>
-                  <v-pagination
-                    :pagination="artist.pagination"
-                    :switch-page-function="setPage"
-                    variant="small"
-                  />
-                </v-card-body>
-              </v-card>
-              <v-card variant="inline">
-                <v-card-body>
-                  <v-select
-                    v-model="artist.pagination.limit"
-                    :items="pageNumbers"
-                  />
-                </v-card-body>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-grid>
-      </v-content>
-      <transition name="fade">
-        <v-overlay
-          v-show="drawerActive"
-          @click.native="hideDrawer"
-        />
-      </transition>
-  </div>
+                <v-table-cell>
+                  <router-link :to="getArtistRoute(artist.id)">
+                    {{ artist.fullName }}
+                  </router-link>
+                </v-table-cell>
+                <v-table-cell>
+                  {{ artist.birthday }}
+                </v-table-cell>
+              </v-table-row>
+              <v-table-row v-if="artist.all.length === 0">
+                <v-table-cell colspan="3">Artists not found .... </v-table-cell>
+              </v-table-row>
+            </v-table-body>
+          </v-table>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col variant="xs-justiry">
+          <v-card variant="inline">
+            <v-card-body>
+              <v-pagination
+                :pagination="artist.pagination"
+                :switch-page-function="setPage"
+                variant="small"
+              />
+            </v-card-body>
+          </v-card>
+          <v-card variant="inline">
+            <v-card-body>
+              <v-select
+                v-model="artist.pagination.limit"
+                :items="pageNumbers"
+              />
+            </v-card-body>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-grid>
+  </v-layout>
 </template>
 <script>
   export default {
@@ -143,7 +97,6 @@
             limit: 5,
           },
         },
-        drawerActive: false,
         query: null,
         pageNumbers: [
           5,
@@ -153,14 +106,6 @@
       };
     },
     methods: {
-      hideDrawer() {
-        this.drawerActive = false;
-      },
-
-      toggleDrawer() {
-        this.drawerActive = !this.drawerActive;
-      },
-
       getArtistRoute() {},
 
       setPage() {},
@@ -174,6 +119,10 @@
       query(query) {
         this.setQuery(query);
       },
+    },
+
+    components: {
+      VLayout: require('@/layouts/base'),
     },
   };
 </script>

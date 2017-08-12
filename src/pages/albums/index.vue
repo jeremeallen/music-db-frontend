@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-layout>
       {{ pageName }}
-  </div>
+  </v-layout>
 </template>
 <script>
   export default {
@@ -9,6 +9,9 @@
       return {
         pageName: 'albums.index',
       };
+    },
+    components: {
+      VLayout: require('@/layouts/base'),
     },
   };
 </script>
