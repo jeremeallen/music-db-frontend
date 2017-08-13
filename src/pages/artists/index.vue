@@ -114,6 +114,12 @@
 
       setQuery() {},
 
+      redirectToCreatePage() {
+        this.$router.push({
+          name: 'artists.create',
+        });
+      },
+
     },
     watch: {
       query(query) {
