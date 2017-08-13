@@ -59,7 +59,12 @@
         console.log(id);
       },
       redirectToEditPage() {
-
+        this.$router.push({
+          name: 'artists.edit',
+          props: {
+            artistId: this.artistId,
+          },
+        });
       },
       destroyArtist() {
 
