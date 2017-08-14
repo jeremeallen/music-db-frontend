@@ -98,7 +98,9 @@
       },
     },
     methods: {
-      fetchArtist() {},
+      fetchArtist(id) {
+        console.log(id);
+      },
       updateArtist() {
 
       },

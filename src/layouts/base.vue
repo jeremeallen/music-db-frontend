@@ -17,7 +17,7 @@
                 variant="green" 
                 @click.native="toggleDrawer"
               />
-              <v-drwaer-title>Music DB</v-drwaer-title>
+              <v-drawer-title>Music DB</v-drawer-title>
             </v-drawer-header>
             <v-drawer-body>
               <v-navigation>
