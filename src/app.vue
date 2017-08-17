@@ -13,10 +13,7 @@ export default {
   router,
 
   mounted() {
-    this.$http.get('/albums')
-      .then((data) => {
-        console.log(data);
-      });
+    this.$store.dispatch('auth/logout');
   },
 };
 </script>

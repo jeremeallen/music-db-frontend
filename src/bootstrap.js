@@ -34,7 +34,6 @@ Object.defineProperty(Vue.prototype, '$echo', {
   },
 });
 
-import store from '@/store';
 import VueRouterSync from 'vuex-router-sync';
 
 import VueRouter from 'vue-router';
@@ -46,7 +45,12 @@ export const router = new VueRouter({
   routes,
 });
 
+import store from '@/store';
+
 VueRouterSync.sync(store, router);
+
+store.dispatch('auth/check');
+
 Vue.router = router;
 
 import MusicDbComponents from 'music-db-components';
