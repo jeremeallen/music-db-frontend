@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import * as types from './mutation-types';
 
 export const check = ({ commit }) => {
@@ -6,10 +7,16 @@ export const check = ({ commit }) => {
 
 export const login = ({ commit }) => {
   commit(types.LOGIN, 'myRandomAccessToken');
+  Vue.router.push({
+    name: 'artists.index',
+  });
 };
 
 export const logout = ({ commit }) => {
   commit(types.LOGOUT);
+  Vue.router.push({
+    name: 'login.index',
+  });
 };
 
 export default {

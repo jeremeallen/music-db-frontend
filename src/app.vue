@@ -12,8 +12,13 @@ export default {
   store,
   router,
 
-  mounted() {
-    this.$store.dispatch('auth/logout');
+  methods: {
+    login() {
+      this.$store.dispatch('auth/login');
+    },
+    logout() {
+      this.$store.dispatch('auth/logout');
+    },
   },
 };
 </script>

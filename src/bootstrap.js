@@ -47,6 +47,21 @@ export const router = new VueRouter({
 
 import store from '@/store';
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(m => m.meta.auth) && !store.state.auth.authenticated) {
+    next({
+      name: 'login.index',
+    });
+  } else if (to.matched.some(m => m.meta.guest) && store.state.auth.authenticated) {
+    next({
+      name: 'artists.index',
+    });
+  } else {
+    next();
+  }
+});
+
+
 VueRouterSync.sync(store, router);
 
 store.dispatch('auth/check');
