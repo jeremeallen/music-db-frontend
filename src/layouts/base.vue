@@ -5,8 +5,8 @@
             <v-nav-icon @click.native="toggleDrawer" />
             <v-toolbar-title>Music DB</v-toolbar-title>
             <v-toolbar-actions>
-              <v-toolbar-action>
-                <v-icon>exit to app</v-icon>
+              <v-toolbar-action @click.native='logout'>
+                <v-icon>exit_to_app</v-icon>
               </v-toolbar-action>
             </v-toolbar-actions>
         </v-toolbar>
@@ -64,6 +64,10 @@
 
       toggleDrawer() {
         this.drawerActive = !this.drawerActive;
+      },
+
+      logout() {
+        this.$store.dispatch('auth/logout');
       },
     },
   };

@@ -51,7 +51,9 @@
       };
     },
     methods: {
-      login() {},
+      login() {
+        this.$store.dispatch('auth/login', this.user);
+      },
     },
     components: {
       VLayout: require('@/layouts/minimal'),
