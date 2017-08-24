@@ -20,5 +20,13 @@ export default {
       this.$store.dispatch('auth/logout');
     },
   },
+
+  mounted() {
+    this.$store.watch((state) => {
+      if (state.auth.authenticated) {
+        store.dispatch('artist/all');
+      }
+    });
+  },
 };
 </script>

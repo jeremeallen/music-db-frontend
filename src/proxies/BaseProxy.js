@@ -20,6 +20,10 @@ class BaseProxy {
         });
     });
   }
+
+  all() {
+    return this.submit('get', `/${this.endpoint}`);
+  }
 }
 
 export default BaseProxy;

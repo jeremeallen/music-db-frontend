@@ -84,19 +84,12 @@
   </v-layout>
 </template>
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     name: 'artist-index',
     data() {
       return {
-        artist: {
-          all: [],
-          pagination: {
-            totalCount: 0,
-            totalPages: 0,
-            currentPage: 1,
-            limit: 5,
-          },
-        },
         query: null,
         pageNumbers: [
           5,
@@ -105,8 +98,20 @@
         ],
       };
     },
+
+    computed: {
+      ...mapState('artist', {
+        artist: state => state,
+      }),
+    },
+
     methods: {
-      getArtistRoute() {},
+      getArtistRoute(id) {
+        return {
+          name: 'artists.show',
+          params: { artistId: id },
+        };
+      },
 
       setPage() {},
 
