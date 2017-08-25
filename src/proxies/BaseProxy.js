@@ -58,6 +58,14 @@ class BaseProxy {
     return this.submit('post', `/${this.endpoint}`, item);
   }
 
+  find(id) {
+    return this.submit('get', `/${this.endpoint}/${id}`);
+  }
+
+  destroy(id) {
+    return this.submit('delete', `/${this.endpoint}/${id}`);
+  }
+
   getParameterString() {
     const keys = Object.keys(this.parameters);
 

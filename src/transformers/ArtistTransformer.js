@@ -1,16 +1,16 @@
 import BaseTransformer from './BaseTransformer';
+import Artist from '@/models/Artist';
 
 class ArtistTransformer extends BaseTransformer {
   static fetch(artist) {
-    return {
+    return new Artist({
       id: artist.id,
       firstName: artist.first_name,
       lastName: artist.last_name,
-      fullName: `${artist.first_name} ${artist.last_name}`,
       gender: artist.gender,
       birthday: artist.birthday,
       biography: artist.biography,
-    };
+    });
   }
 
   static send(artist) {
