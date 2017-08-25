@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import * as types from './mutation-types';
 import ArtistProxy from '@/proxies/ArtistProxy';
 import ArtistTransformer from '@/transformers/ArtistTransformer';
@@ -22,6 +23,18 @@ export const all = ({ commit }, fn = null) => {
     });
 };
 
+export const create = ({ commit }, artist) => {
+  const trasnformedArtist = ArtistTransformer.send(artist);
+
+  proxy.create(trasnformedArtist)
+    .then(() => {
+      Vue.router.push({
+        name: 'artists.index',
+      });
+    });
+};
+
 export default {
   all,
+  create,
 };

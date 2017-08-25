@@ -88,7 +88,7 @@
     },
     methods: {
       createArtist() {
-
+        this.$store.dispatch('artist/create', this.artist);
       },
       goBack() {
         this.$router.push({
