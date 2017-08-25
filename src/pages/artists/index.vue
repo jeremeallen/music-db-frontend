@@ -40,7 +40,7 @@
             <v-table-body>
               <v-table-row
                 v-for="artist in artist.all"
-                :key="artist"
+                :key="artist.id"
                 variant="body"
               >
                 <v-table-cell>
@@ -73,7 +73,7 @@
           <v-card variant="inline">
             <v-card-body>
               <v-select
-                v-model="artist.pagination.limit"
+                v-model="limit"
                 :items="pageNumbers"
               />
             </v-card-body>
@@ -85,6 +85,7 @@
 </template>
 <script>
   import { mapState } from 'vuex';
+  import debounce from 'lodash.debounce';
 
   export default {
     name: 'artist-index',
@@ -103,6 +104,15 @@
       ...mapState('artist', {
         artist: state => state,
       }),
+
+      limit: {
+        get() {
+          return this.artist.pagination.limit;
+        },
+        set(limit) {
+          this.setLimit(limit);
+        },
+      },
     },
 
     methods: {
@@ -113,11 +123,25 @@
         };
       },
 
-      setPage() {},
+      setPage(page) {
+        this.$store.dispatch('artist/all', (proxy) => {
+          proxy.setParameter('page', page);
+        });
+      },
 
-      setLimit() {},
+      setLimit(limit) {
+        this.$store.dispatch('artist/all', (proxy) => {
+          proxy.setParameter('limit', limit)
+            .removeParameter('page');
+        });
+      },
 
-      setQuery() {},
+      setQuery: debounce(function (query) {
+        this.$store.dispatch('artist/all', (proxy) => {
+          proxy.setParameter('q', query)
+            .removeParameter('page');
+        });
+      }, 500),
 
       redirectToCreatePage() {
         this.$router.push({

@@ -5,7 +5,11 @@ import PaginationTransformer from '@/transformers/PaginationTransformer';
 
 const proxy = new ArtistProxy();
 
-export const all = ({ commit }) => {
+export const all = ({ commit }, fn = null) => {
+  if (typeof fn === 'function') {
+    fn(proxy);
+  }
+
   proxy.all()
     .then((response) => {
       console.log(response);
