@@ -5,7 +5,7 @@
           <v-col>
             <v-card v-if='artist'>
               <v-card-heading>
-                <v-card-title>Update artist {{ this.fullName }}</v-card-title>
+                <v-card-title>Update artist {{ artist.fullName }}</v-card-title>
               </v-card-heading>
               <v-card-body>
                 <v-form @submit.prevent.native='updateArtist'>
@@ -69,6 +69,11 @@
   </v-layout>
 </template>
 <script>
+  import ArtistProxy from '@/proxies/ArtistProxy';
+  import ArtistTransformer from '@/transformers/ArtistTransformer';
+
+  const proxy = new ArtistProxy();
+
   export default {
     name: 'artists-edit',
     props: {
@@ -83,26 +88,18 @@
           'Male',
           'Female',
         ],
-        artist: {
-          firstName: 'John',
-          lastName: 'Doe',
-          gender: 'Male',
-          birthday: '01-01-2000',
-          biography: 'Lorem Ipsum',
-        },
+        artist: null,
       };
-    },
-    computed: {
-      fullName() {
-        return `${this.artist.firstName} ${this.artist.lastName}`;
-      },
     },
     methods: {
       fetchArtist(id) {
-        console.log(id);
+        proxy.find(id)
+          .then((data) => {
+            this.artist = ArtistTransformer.fetch(data);
+          });
       },
       updateArtist() {
-
+        this.$store.dispatch('artist/update', this.artist);
       },
       goBack() {
         this.$router.push({

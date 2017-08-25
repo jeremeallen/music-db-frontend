@@ -34,6 +34,20 @@ export const create = ({ commit }, artist) => {
     });
 };
 
+export const update = ({ commit }, artist) => {
+  const transformedArtist = ArtistTransformer.send(artist);
+
+  proxy.update(artist.id, transformedArtist)
+    .then(() => {
+      Vue.router.push({
+        name: 'artists.show',
+        params: {
+          artistId: artist.id,
+        },
+      });
+    });
+};
+
 export const destroy = ({ commit }, artistId) => {
   proxy.destroy(artistId)
     .then(() => {
@@ -47,4 +61,5 @@ export default {
   all,
   create,
   destroy,
+  update,
 };

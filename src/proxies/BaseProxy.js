@@ -58,6 +58,10 @@ class BaseProxy {
     return this.submit('post', `/${this.endpoint}`, item);
   }
 
+  update(id, item) {
+    return this.submit('put', `/${this.endpoint}/${id}`, item);
+  }
+
   find(id) {
     return this.submit('get', `/${this.endpoint}/${id}`);
   }
