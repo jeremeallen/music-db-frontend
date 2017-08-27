@@ -39,6 +39,23 @@
         </transition>
       </v-header>
       <v-content>
+        <v-aligner :variants="['top', 'right']">
+          <transition-group name="fade-left">
+            <v-alert
+              v-for="alert in application.alerts"
+              :variant="alert.type"
+              :key="alert">
+              <v-alert-body>
+                {{ alert.message }}
+              </v-alert-body>
+              <v-alert-close @click.native="removeAlert(alert)">
+                <v-icon>
+                  close
+                </v-icon>
+              </v-alert-close>
+            </v-alert>
+          </transition-group>
+        </v-aligner>
         <slot></slot>
       </v-content>
       <transition name="fade">
@@ -50,12 +67,19 @@
   </div>
 </template>
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     name: 'base-layout',
     data() {
       return {
         drawerActive: false,
       };
+    },
+    computed: {
+      ...mapState('application', {
+        application: state => state,
+      }),
     },
     methods: {
       hideDrawer() {
@@ -68,6 +92,9 @@
 
       logout() {
         this.$store.dispatch('auth/logout');
+      },
+      removeAlert(alert) {
+        this.$store.dispatch('application/removeAlert', alert);
       },
     },
   };
