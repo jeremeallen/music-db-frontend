@@ -6,6 +6,6 @@
  */
 
 export default {
-  alerts: [],
   drawerActive: false,
+  alerts: [],
 };

@@ -21,13 +21,11 @@
               <v-button
                 variant="minimal"
                 @click.native="redirectToEditPage()"
-              >Edit
-              </v-button>
+              >Edit</v-button>
               <v-button
                 :variants="['minimal', 'minimal--danger']"
                 @click.native="destroyArtist()"
-              >Delete
-              </v-button>
+              >Delete</v-button>
             </v-card-footer>
           </v-card>
         </v-col>
@@ -109,20 +107,27 @@
     },
 
     /**
-     * The components that are being used.
+     * Available watchers for this page.
      */
-    components: {
-      VLayout: require('@/layouts/base'),
-    },
-
     watch: {
       artistId(id) {
         this.fetchArtist(id);
       },
     },
 
+    /**
+     * This method will be fired once the page has been loaded.
+     * It'll fetch the artist using the given album identifier.
+     */
     mounted() {
       this.fetchArtist(this.artistId);
+    },
+
+    /**
+     * The components that are being used.
+     */
+    components: {
+      VLayout: require('@/layouts/base'),
     },
   };
 </script>

@@ -3,9 +3,9 @@
     <v-grid variant="container">
       <v-row>
         <v-col>
-          <v-card if="artists">
+          <v-card v-if="album">
             <v-card-heading>
-              <v-card-title>{{ album.title }} </v-card-title>
+              <v-card-title>{{ album.title}}</v-card-title>
             </v-card-heading>
             <v-card-body>
               <v-definition>
@@ -15,13 +15,15 @@
             </v-card-body>
             <v-card-footer>
               <v-button
-                variant='minimal'
-                @click.native='redirectToEditPage()'
-              >Edit</v-button>
+                variant="minimal"
+                @click.native="redirectToEditPage()"
+              >Edit
+              </v-button>
               <v-button
                 :variants="['minimal', 'minimal--danger']"
-                @click.native='destroyAlbum()'
-              >Delete</v-button>
+                @click.native="destroyAlbum()"
+              >Delete
+              </v-button>
             </v-card-footer>
           </v-card>
         </v-col>
@@ -30,26 +32,60 @@
   </v-layout>
 </template>
 <script>
+  import Proxy from '@/proxies/AlbumProxy';
+  import AlbumTransformer from '@/transformers/AlbumTransformer';
+
+  const proxy = new Proxy();
+
   export default {
+    /**
+     * The name of the page.
+     */
     name: 'albums-show',
+
+    /**
+     * The properties that can be used.
+     */
     props: {
+      /**
+       * The given album identifier.
+       */
       albumId: {
         type: [String, Number],
         required: true,
       },
     },
+
+    /**
+     * The data the page can use.
+     *
+     * @returns {Object} The data.
+     */
     data() {
       return {
-        album: {
-          title: 'Hello World!',
-          releaseDate: '01-01-2000',
-        },
+        album: null,
       };
     },
+
+    /**
+     * The methods which the page can use.
+     */
     methods: {
+      /**
+       * Method used to fetch an album.
+       *
+       * @param {Number} id The id of the album.
+       */
       fetchAlbum(id) {
-        console.log(id);
+        proxy.find(id)
+          .then((data) => {
+            this.album = AlbumTransformer.fetch(data);
+          });
       },
+
+      /**
+       * Method used to redirect the user to the album edit page.
+       */
       redirectToEditPage() {
         this.$router.push({
           name: 'albums.edit',
@@ -58,22 +94,38 @@
           },
         });
       },
-      destroyAlbum() {
 
+      /**
+       * Method used to destroy an album.
+       * It'll dispatch the destroy action on the album module.
+       */
+      destroyAlbum() {
+        this.$store.dispatch('album/destroy', this.albumId);
       },
     },
-    components: {
-      VLayout: require('@/layouts/base'),
+
+    /**
+     * Available watchers for this page.
+     */
+    watch: {
+      albumId(value) {
+        this.fetchAlbum(value);
+      },
     },
 
+    /**
+     * This method will be fired once the page has been loaded.
+     * It'll fetch the album using the given album identifier.
+     */
     mounted() {
       this.fetchAlbum(this.albumId);
     },
 
-    watch: {
-      albumId(id) {
-        this.fetchAlbum(id);
-      },
+    /**
+     * The components that are being used.
+     */
+    components: {
+      VLayout: require('@/layouts/base'),
     },
   };
 </script>

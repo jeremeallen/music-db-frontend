@@ -8,8 +8,8 @@
 import {
   ADD_ALERT,
   REMOVE_ALERT,
-  SHOW_DRAWER,
   TOGGLE_DRAWER,
+  SHOW_DRAWER,
   HIDE_DRAWER,
 } from './mutation-types';
 

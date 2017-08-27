@@ -12,9 +12,9 @@ export const ADD_ALERT = 'ADD_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 
 export default {
-  ADD_ALERT,
-  REMOVE_ALERT,
   TOGGLE_DRAWER,
   SHOW_DRAWER,
   HIDE_DRAWER,
+  ADD_ALERT,
+  REMOVE_ALERT,
 };
