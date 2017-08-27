@@ -25,6 +25,15 @@ export default {
     this.$store.watch((state) => {
       if (state.auth.authenticated) {
         store.dispatch('artist/all');
+
+        this.$echo
+          .channel('artists')
+          .listen('Artist.Created', (artist) => {
+            console.log(artist);
+          });
+
+        store.dispatch('album/all');
+        store.dispatch('song/all');
       }
     });
   },

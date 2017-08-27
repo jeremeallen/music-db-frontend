@@ -13,7 +13,6 @@ export const all = ({ commit }, fn = null) => {
 
   proxy.all()
     .then((response) => {
-      console.log(response);
       const data = {
         artists: ArtistTransformer.fetchCollection(response.data),
         pagination: PaginationTransformer.fetch(response.pagination),
