@@ -7,4 +7,5 @@
 
 export default {
   alerts: [],
+  drawerActive: false,
 };

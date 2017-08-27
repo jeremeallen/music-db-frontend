@@ -11,7 +11,7 @@
             </v-toolbar-actions>
         </v-toolbar>
         <transition name="slide-left">
-          <v-drawer v-if="drawerActive">
+          <v-drawer v-if="application.drawerActive">
             <v-drawer-header>
               <v-nav-icon 
                 variant="green" 
@@ -60,7 +60,7 @@
       </v-content>
       <transition name="fade">
         <v-overlay
-          v-show="drawerActive"
+          v-show="application.drawerActive"
           @click.native="hideDrawer"
         />
       </transition>
@@ -71,11 +71,6 @@
 
   export default {
     name: 'base-layout',
-    data() {
-      return {
-        drawerActive: false,
-      };
-    },
     computed: {
       ...mapState('application', {
         application: state => state,
@@ -83,11 +78,11 @@
     },
     methods: {
       hideDrawer() {
-        this.drawerActive = false;
+        this.$store.dispatch('application/hideDrawer');
       },
 
       toggleDrawer() {
-        this.drawerActive = !this.drawerActive;
+        this.$store.dispatch('application/toggleDrawer');
       },
 
       logout() {

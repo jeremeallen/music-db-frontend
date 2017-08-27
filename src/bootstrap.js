@@ -61,6 +61,14 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+router.afterEach(() => {
+  if (store.state.application.drawerActive) {
+    Vue.nextTick(() => {
+      store.dispatch('application/hideDrawer');
+    });
+  }
+});
+
 
 VueRouterSync.sync(store, router);
 
