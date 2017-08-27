@@ -1,8 +1,8 @@
 /* ============
- * Artist State
+ * Song State
  * ============
  *
- * The state of the artist module.
+ * The state of the song module.
  */
 
 export default {

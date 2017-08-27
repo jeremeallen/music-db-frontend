@@ -1,21 +1,21 @@
 /* ============
- * Artist Actions
+ * Album Actions
  * ============
  *
- * The actions available for the artist module.
+ * The actions available for the album module.
  */
 
 import Vue from 'vue';
 import * as types from './mutation-types';
 import store from '@/store';
-import Proxy from '@/proxies/ArtistProxy';
-import ArtistTransformer from '@/transformers/ArtistTransformer';
+import Proxy from '@/proxies/AlbumProxy';
+import AlbumTransformer from '@/transformers/AlbumTransformer';
 import PaginationTransformer from '@/transformers/PaginationTransformer';
 
 const proxy = new Proxy();
 
 /**
- * Action fired when all artists will be fetched.
+ * Action fired when all albums will be fetched.
  *
  * @param {function} commit Commit function to update the store.
  * @param {function} fn     Callback to edit the parameters on the proxy.
@@ -28,7 +28,7 @@ const all = ({ commit }, fn = null) => {
   proxy.all()
     .then((response) => {
       const data = {
-        artists: ArtistTransformer.fetchCollection(response.data),
+        albums: AlbumTransformer.fetchCollection(response.data),
         pagination: PaginationTransformer.fetch(response.pagination),
       };
 
@@ -37,94 +37,86 @@ const all = ({ commit }, fn = null) => {
 };
 
 /**
- * Action fired when an artist will be created.
+ * Action fired when an album will be created.
  *
  * @param {function} commit  Commit function to update the store.
- * @param {Object}   artist  The artist that will be created.
+ * @param {Object}   album   The album that will be created.
  */
-const create = ({ commit }, artist) => {
-  const transformedArtist = ArtistTransformer.send(artist);
+const create = ({ commit }, album) => {
+  const transformedAlbum = AlbumTransformer.send(album);
 
-  proxy.create(transformedArtist)
+  proxy.create(transformedAlbum)
     .then(() => {
       store.dispatch('application/addAlert', {
         type: 'success',
-        message: 'Artist has been created!',
+        message: 'Album has been created!',
       });
 
       Vue.router.push({
-        name: 'artists.index',
+        name: 'albums.index',
       });
     })
     .catch(() => {
       store.dispatch('application/addAlert', {
         type: 'danger',
-        message: 'The artist could not be created',
+        message: 'The album could not be created',
       });
     });
 };
 
-const created = ({ commit }, artist) => {
-  commit(types.CREATED, ArtistTransformer.fetch(artist));
-};
-
-const updated = ({ commit }, artist) => {
-  commit(types.UPDATED, ArtistTransformer.fetch(artist));
-};
-
 /**
- * Action fired when an artist will be updated.
+ * Action fired when an album will be updated.
  *
  * @param {function} commit  Commit function to update the store.
- * @param {Object}   artist  The artist that will be updated.
+ * @param {Object}   album   The album that will be updated.
  */
-const update = ({ commit }, artist) => {
-  const transformedArtist = ArtistTransformer.send(artist);
+const update = ({ commit }, album) => {
+  const transformedAlbum = AlbumTransformer.send(album);
 
-  proxy.update(artist.id, transformedArtist)
+  proxy.update(album.id, transformedAlbum)
     .then(() => {
       store.dispatch('application/addAlert', {
         type: 'success',
-        message: 'Artist has been updated!',
+        message: 'Album has been updated!',
       });
 
       Vue.router.push({
-        name: 'artists.show',
+        name: 'albums.show',
         params: {
-          artistId: artist.id,
+          albumId: album.id,
         },
       });
     })
     .catch(() => {
       store.dispatch('application/addAlert', {
         type: 'danger',
-        message: 'The artist could not be updated',
+        message: 'The album could not be updated',
       });
     });
 };
 
 /**
- * Action fired when an artist will be destroyed.
+ * Action fired when an album will be destroyed.
  *
  * @param {function} commit    Commit function to update the store.
- * @param {Object}   artistId  The artist that will be destroyed.
+ * @param {Object}   albumId   The album that will be destroyed.
  */
-const destroy = ({ commit }, artistId) => {
-  proxy.destroy(artistId)
+const destroy = ({ commit }, albumId) => {
+  proxy.destroy(albumId)
     .then(() => {
       store.dispatch('application/addAlert', {
         type: 'success',
-        message: 'Artist has been destroyed!',
+        message: 'Album has been destroyed!',
       });
 
       Vue.router.push({
-        name: 'artists.index',
+        name: 'albums.index',
       });
     })
     .catch(() => {
       store.dispatch('application/addAlert', {
         type: 'danger',
-        message: 'The artist could not be destroyed',
+        message: 'The album could not be destroyed',
       });
     });
 };
@@ -132,8 +124,6 @@ const destroy = ({ commit }, artistId) => {
 export default {
   all,
   create,
-  created,
   update,
-  updated,
   destroy,
 };

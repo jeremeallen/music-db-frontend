@@ -1,5 +1,5 @@
 /* ============
- * Artist Module
+ * Song Module
  * ============
  */
 
